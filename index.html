@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prevail Games - Roblox Obby Adventures</title>
+    <title>Prevail Games - Prevalist | Roblox Developer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00A2FF;
-            --secondary: #FFD83D;
-            --accent: #00FF88;
-            --dark: #232323;
-            --roblox-red: #E11D48;
-            --purple: #A855F7;
-            --pink: #EC4899;
+            --primary: #0EA5E9;
+            --secondary: #8B5CF6;
+            --accent: #10B981;
+            --warning: #F59E0B;
+            --bg-dark: #0A0A0F;
+            --bg-darker: #050508;
+            --bg-card: rgba(20, 20, 30, 0.6);
+            --text: #E5E7EB;
+            --text-dim: #9CA3AF;
+            --border: rgba(139, 92, 246, 0.2);
         }
 
         * {
@@ -25,96 +28,86 @@
         }
 
         body {
-            font-family: 'Fredoka', sans-serif;
-            background: var(--dark);
-            color: white;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Animated background with Roblox studs pattern */
-        .bg-animation {
+        /* Animated grid background */
+        .bg-grid {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: var(--dark);
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(0, 162, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+            background: 
+                linear-gradient(var(--bg-dark) 1px, transparent 1px),
+                linear-gradient(90deg, var(--bg-dark) 1px, transparent 1px);
+            background-size: 100px 100px;
+            opacity: 0.03;
+            animation: gridMove 20s linear infinite;
         }
 
-        /* Floating Roblox-style cubes */
-        .bg-animation::before,
-        .bg-animation::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
-            opacity: 0.1;
-            animation: floatCube 25s ease-in-out infinite;
-            border-radius: 10px;
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100px, 100px); }
         }
 
-        .bg-animation::before {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-            transform: rotate(45deg);
+        /* Gradient orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            z-index: -1;
+            animation: floatOrb 20s ease-in-out infinite;
         }
 
-        .bg-animation::after {
-            bottom: 20%;
-            right: 15%;
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--primary);
+            top: -200px;
+            right: -200px;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--secondary);
+            bottom: -150px;
+            left: -150px;
             animation-delay: 5s;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--roblox-red) 0%, var(--pink) 100%);
         }
 
-        @keyframes floatCube {
-            0%, 100% { 
-                transform: translate(0, 0) rotate(45deg) scale(1);
-            }
-            25% { 
-                transform: translate(100px, -100px) rotate(135deg) scale(1.2);
-            }
-            50% { 
-                transform: translate(50px, 50px) rotate(225deg) scale(0.8);
-            }
-            75% { 
-                transform: translate(-50px, -50px) rotate(315deg) scale(1.1);
-            }
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent);
+            top: 50%;
+            left: 50%;
+            animation-delay: 10s;
         }
 
-        /* Floating particles */
-        @keyframes particle {
-            0% { 
-                transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% { 
-                transform: translateY(-1000px) translateX(100px) rotate(360deg);
-                opacity: 0;
-            }
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -80px) scale(1.1); }
+            66% { transform: translate(-30px, 50px) scale(0.9); }
         }
 
         /* Header */
         header {
-            padding: 2rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            animation: slideDown 0.8s ease-out;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 5%;
+            animation: slideDown 0.6s ease-out;
         }
 
         @keyframes slideDown {
@@ -122,213 +115,329 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: rainbow 3s ease infinite, logoPulse 2s ease-in-out infinite;
-            background-size: 200% 200%;
-            position: relative;
-            display: inline-block;
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .logo::before {
-            content: '🎮';
-            position: absolute;
-            left: -50px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            animation: spin 4s linear infinite;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        @keyframes logoPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3);
+            animation: iconPulse 3s ease-in-out infinite;
         }
 
-        @keyframes spin {
-            from { transform: translateY(-50%) rotate(0deg); }
-            to { transform: translateY(-50%) rotate(360deg); }
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 6px 30px rgba(14, 165, 233, 0.5); }
         }
 
-        @keyframes rainbow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
-        nav a {
-            color: white;
+        .brand-text p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
             text-decoration: none;
-            margin-left: 2rem;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
             position: relative;
         }
 
-        nav a::after {
+        .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -4px;
             left: 0;
             width: 0;
-            height: 3px;
-            background: var(--secondary);
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             transition: width 0.3s ease;
         }
 
-        nav a:hover::after {
-            width: 100%;
+        .nav-links a:hover {
+            color: var(--text);
         }
 
-        nav a:hover {
-            color: var(--secondary);
-            transform: translateY(-2px);
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         /* Hero Section */
         .hero {
-            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 8rem 5% 6rem;
-            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
 
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
+        .hero-content {
+            animation: fadeInLeft 0.8s ease-out;
+        }
+
+        @keyframes fadeInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .hero h2 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            animation: bounceIn 1s ease-out 0.2s both;
+            letter-spacing: -2px;
+            animation: fadeIn 0.8s ease-out 0.3s both;
         }
 
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .hero .gradient-text {
-            background: linear-gradient(135deg, var(--primary), var(--purple), var(--pink));
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: inline-block;
         }
 
         .hero p {
-            font-size: 1.4rem;
-            color: #B8B8D1;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
-        @keyframes fadeInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1.2rem 3rem;
-            background: linear-gradient(135deg, var(--primary), var(--roblox-red));
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
             font-size: 1.2rem;
-            border-radius: 50px;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            animation: fadeIn 0.8s ease-out 0.4s both;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeIn 0.8s ease-out 0.5s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
             transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease-out 0.6s both, buttonFloat 3s ease-in-out infinite;
-            box-shadow: 0 10px 30px rgba(0, 162, 255, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(14, 165, 233, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-color: var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--secondary);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
             position: relative;
-            overflow: hidden;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            height: 500px;
+            animation: fadeInRight 0.8s ease-out 0.2s both;
         }
 
-        @keyframes buttonFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes fadeInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 50px rgba(0, 162, 255, 0.6), 0 0 50px rgba(0, 162, 255, 0.3);
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateY(-5px) scale(1.05) rotate(0deg); }
-            25% { transform: translateY(-5px) scale(1.05) rotate(-2deg); }
-            75% { transform: translateY(-5px) scale(1.05) rotate(2deg); }
-        }
-
-        /* Coming Soon Section */
-        .coming-soon {
-            padding: 6rem 5%;
-            text-align: center;
-        }
-
-        .coming-soon h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .coming-soon p {
-            font-size: 1.3rem;
-            color: #B8B8D1;
-            margin-bottom: 4rem;
-        }
-
-        .game-grid {
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            height: 100%;
         }
 
-        .game-card {
-            background: linear-gradient(135deg, rgba(0, 162, 255, 0.1), rgba(168, 85, 247, 0.1));
-            border: 3px solid rgba(0, 162, 255, 0.3);
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 3rem 2rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            animation: fadeInUp 0.8s ease-out both;
-            transform-style: preserve-3d;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        /* Games Section */
+        .section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .section h3 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .section-desc {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out both;
         }
 
         .game-card:nth-child(1) { animation-delay: 0.1s; }
         .game-card:nth-child(2) { animation-delay: 0.2s; }
         .game-card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
 
         .game-card::before {
             content: '';
@@ -336,339 +445,434 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--purple));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .game-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
 
         .game-card:hover::before {
-            opacity: 0.15;
-        }
-
-        .game-card:hover::after {
-            opacity: 1;
+            transform: scaleX(1);
         }
 
         .game-card:hover {
-            transform: translateY(-15px) rotateX(5deg) scale(1.02);
+            transform: translateY(-8px);
             border-color: var(--primary);
-            box-shadow: 
-                0 25px 60px rgba(0, 162, 255, 0.4),
-                0 0 30px rgba(0, 162, 255, 0.2),
-                inset 0 0 20px rgba(0, 162, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(14, 165, 233, 0.2);
         }
 
-        .game-card-content {
-            position: relative;
-            z-index: 1;
+        .game-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .game-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-            animation: bounce 2s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(0, 162, 255, 0.3));
-            transition: all 0.3s ease;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: transform 0.3s ease;
         }
 
         .game-card:hover .game-icon {
-            animation: wiggle 0.5s ease-in-out;
-            transform: scale(1.2) rotate(10deg);
-            filter: drop-shadow(0 10px 25px rgba(0, 162, 255, 0.6));
+            transform: scale(1.1) rotate(5deg);
         }
 
-        @keyframes wiggle {
-            0%, 100% { transform: scale(1.2) rotate(10deg); }
-            25% { transform: scale(1.2) rotate(-10deg); }
-            50% { transform: scale(1.25) rotate(10deg); }
-            75% { transform: scale(1.2) rotate(-10deg); }
+        .game-title {
+            flex: 1;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .game-card:nth-child(2) .game-icon {
-            animation-delay: 0.3s;
-        }
-
-        .game-card:nth-child(3) .game-icon {
-            animation-delay: 0.6s;
-        }
-
-        .game-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--secondary);
-        }
-
-        .game-card p {
-            color: #B8B8D1;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.5rem 1.2rem;
-            background: linear-gradient(135deg, var(--primary), var(--purple));
-            border-radius: 20px;
-            font-size: 0.9rem;
+        .game-title h4 {
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-top: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0, 162, 255, 0.3);
-            animation: badgePulse 2s ease-in-out infinite;
+            margin-bottom: 0.25rem;
         }
 
-        @keyframes badgePulse {
-            0%, 100% { 
-                box-shadow: 0 4px 15px rgba(0, 162, 255, 0.3);
-                transform: scale(1);
-            }
-            50% { 
-                box-shadow: 0 6px 25px rgba(0, 162, 255, 0.5);
-                transform: scale(1.05);
-            }
+        .game-meta {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .game-desc {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .game-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .feature-tag {
+            padding: 0.4rem 0.8rem;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 500;
         }
 
         /* About Section */
         .about {
-            padding: 6rem 5%;
-            background: 
-                linear-gradient(135deg, rgba(0, 162, 255, 0.05), rgba(168, 85, 247, 0.05)),
-                repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 10px,
-                    rgba(0, 162, 255, 0.03) 10px,
-                    rgba(0, 162, 255, 0.03) 20px
-                );
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about::before {
-            content: '🎮';
-            position: absolute;
-            top: 10%;
-            right: 10%;
-            font-size: 10rem;
-            opacity: 0.05;
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .about::after {
-            content: '⚡';
-            position: absolute;
-            bottom: 10%;
-            left: 10%;
-            font-size: 8rem;
-            opacity: 0.05;
-            animation: float 15s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(10deg); }
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
 
-        .about h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 2rem;
-            background: linear-gradient(135deg, var(--pink), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .about p {
-            font-size: 1.3rem;
-            color: #B8B8D1;
-            line-height: 1.8;
+        .about-text h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
             margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .about-text p {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .skill-item {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .skill-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .skill-item span {
+            color: var(--text-dim);
+            font-size: 0.9rem;
         }
 
         /* Footer */
         footer {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 4rem 5% 2rem;
-            text-align: center;
-            border-top: 2px solid rgba(255, 107, 53, 0.2);
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h4 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
         }
 
         .social-links {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .social-links a {
-            color: white;
-            font-size: 1.2rem;
+        .social-link {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
             text-decoration: none;
-            padding: 1rem 2rem;
-            background: rgba(0, 162, 255, 0.1);
-            border: 2px solid rgba(0, 162, 255, 0.3);
-            border-radius: 15px;
-            transition: all 0.3s ease;
             font-weight: 600;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-links a::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(0, 162, 255, 0.4) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            transition: width 0.4s ease, height 0.4s ease;
-            border-radius: 50%;
-        }
-
-        .social-links a:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 
-                0 10px 30px rgba(0, 162, 255, 0.4),
-                0 0 20px rgba(0, 162, 255, 0.3);
-        }
-
-        footer p {
-            color: #B8B8D1;
-            font-family: 'Space Mono', monospace;
             font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(14, 165, 233, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(14, 165, 233, 0.2);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            nav {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .game-grid {
+        @media (max-width: 1024px) {
+            .hero,
+            .about-content,
+            .footer-content {
                 grid-template-columns: 1fr;
             }
 
-            .social-links {
-                flex-direction: column;
-                align-items: center;
+            .hero-visual {
+                height: 400px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
     <header>
-        <div class="logo">PREVAIL</div>
         <nav>
-            <a href="#games">Games</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <div class="brand">
+                <div class="brand-icon">P</div>
+                <div class="brand-text">
+                    <h1>Prevail Games</h1>
+                    <p>by Prevalist</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#games">Games</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>
-            Jump Into <span class="gradient-text">Epic Adventures</span>
-        </h1>
-        <p>Creating the most exciting obby experiences on Roblox. Get ready to jump, climb, and prevail!</p>
-        <a href="#games" class="cta-button">Explore Games</a>
-    </section>
-
-    <section class="coming-soon" id="games">
-        <h2>🚀 Coming Soon</h2>
-        <p>Incredible obby adventures are on the way!</p>
-        <div class="game-grid">
-            <div class="game-card">
-                <div class="game-card-content">
-                    <div class="game-icon">🎯</div>
-                    <h3>Epic Obby</h3>
-                    <p>Challenge yourself with mind-bending obstacles and incredible parkour sequences!</p>
-                    <span class="badge">In Development</span>
-                </div>
+        <div class="hero-content">
+            <span class="hero-label">🇳🇿 Roblox Developer from New Zealand</span>
+            <h2>
+                Building <span class="gradient-text">Epic Obby</span> Experiences
+            </h2>
+            <p>
+                Independent game developer crafting challenging, community-driven obstacle courses that push the boundaries of what's possible on Roblox.
+            </p>
+            <div class="cta-group">
+                <a href="#games" class="btn btn-primary">
+                    View Games →
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    Get in Touch
+                </a>
             </div>
-            <div class="game-card">
-                <div class="game-card-content">
-                    <div class="game-icon">⚡</div>
-                    <h3>Speed Run Master</h3>
-                    <p>Race against the clock in fast-paced challenges that will test your skills!</p>
-                    <span class="badge">Concept Phase</span>
+        </div>
+        <div class="hero-visual">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🎮</div>
+                    <div>
+                        <div class="stat-value">3+</div>
+                        <div class="stat-label">Games in Development</div>
+                    </div>
                 </div>
-            </div>
-            <div class="game-card">
-                <div class="game-card-content">
-                    <div class="game-icon">🌟</div>
-                    <h3>Co-op Adventure</h3>
-                    <p>Team up with friends to conquer challenging obstacles together!</p>
-                    <span class="badge">Planning</span>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div>
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Passion Driven</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🚀</div>
+                    <div>
+                        <div class="stat-value">2025</div>
+                        <div class="stat-label">Launch Year</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💎</div>
+                    <div>
+                        <div class="stat-value">∞</div>
+                        <div class="stat-label">Possibilities</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="about" id="about">
+    <section class="section" id="games">
+        <div class="section-header">
+            <span class="section-label">Coming Soon</span>
+            <h3>Games in Development</h3>
+            <p class="section-desc">
+                Exciting obby experiences currently in production. Stay tuned for releases!
+            </p>
+        </div>
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon">🎯</div>
+                    <div class="game-title">
+                        <h4>Epic Obby Adventure</h4>
+                        <span class="game-meta">In Development</span>
+                    </div>
+                </div>
+                <p class="game-desc">
+                    Challenge yourself with mind-bending obstacles, precision parkour, and epic gameplay that will test your skills to the limit.
+                </p>
+                <div class="game-features">
+                    <span class="feature-tag">Parkour</span>
+                    <span class="feature-tag">Challenging</span>
+                    <span class="feature-tag">Solo/Co-op</span>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon">⚡</div>
+                    <div class="game-title">
+                        <h4>Speed Run Challenge</h4>
+                        <span class="game-meta">Concept Phase</span>
+                    </div>
+                </div>
+                <p class="game-desc">
+                    Race against the clock in fast-paced obstacle courses designed for speedrunners who crave the ultimate challenge.
+                </p>
+                <div class="game-features">
+                    <span class="feature-tag">Speedrun</span>
+                    <span class="feature-tag">Competitive</span>
+                    <span class="feature-tag">Leaderboards</span>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon">👥</div>
+                    <div class="game-title">
+                        <h4>Co-op Platformer</h4>
+                        <span class="game-meta">Planning</span>
+                    </div>
+                </div>
+                <p class="game-desc">
+                    Team up with friends to conquer obstacles that require coordination, strategy, and teamwork to overcome.
+                </p>
+                <div class="game-features">
+                    <span class="feature-tag">Multiplayer</span>
+                    <span class="feature-tag">Teamwork</span>
+                    <span class="feature-tag">Strategy</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section about" id="about">
         <div class="about-content">
-            <h2>About Prevail Games</h2>
-            <p>Hey! I'm Qyrelis, an independent Roblox developer from New Zealand 🇳🇿 on a mission to create incredible obby experiences.</p>
-            <p>My journey started with a passion for building community-driven games and pushing the limits of what's possible on Roblox. From mastering Lua scripting to designing immersive worlds, I'm constantly learning and evolving as a developer.</p>
-            <p>Prevail Games is all about creating challenges that test your skills, adventures that keep you coming back, and experiences you'll want to share with friends across the globe.</p>
-            <p>Stay tuned for our first release – it's going to be epic! 🎮</p>
+            <div class="about-text">
+                <h3>About Prevalist</h3>
+                <p>
+                    Hey! I'm Prevalist (formerly Qyrelis), an independent Roblox developer from New Zealand 🇳🇿 with a passion for creating unforgettable obby experiences.
+                </p>
+                <p>
+                    My journey started with a drive to build community-focused games that challenge players and bring people together. From mastering Lua scripting to designing immersive worlds, I'm constantly pushing the boundaries of what's possible on Roblox.
+                </p>
+                <p>
+                    Prevail Games represents my commitment to crafting experiences that are challenging, rewarding, and built to last.
+                </p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <strong>💻 Lua Scripting</strong>
+                    <span>Advanced gameplay systems & mechanics</span>
+                </div>
+                <div class="skill-item">
+                    <strong>🎨 UI/UX Design</strong>
+                    <span>Polished interfaces & player experience</span>
+                </div>
+                <div class="skill-item">
+                    <strong>🏗️ Game Architecture</strong>
+                    <span>Modular systems & scalable code</span>
+                </div>
+                <div class="skill-item">
+                    <strong>📊 Data Management</strong>
+                    <span>ProfileService & DataStore expertise</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer id="contact">
-        <div class="social-links">
-            <a href="https://www.roblox.com/communities/500121383/Prevail-Games#!/about" target="_blank">Roblox Group</a>
-            <a href="https://discord.gg/nnMT5DsmYS" target="_blank">Discord</a>
-            <a href="https://twitter.com/PrevailRBLX" target="_blank">Twitter</a>
-            <a href="https://www.tiktok.com/@prevail.games" target="_blank">TikTok</a>
-            <a href="mailto:hello@prevail.games">Email</a>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h4>Prevail Games</h4>
+                <p>Building the next generation of Roblox obby experiences. Join the community and stay updated on new releases!</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 1rem;">Connect</h4>
+                <div class="social-links">
+                    <a href="https://www.roblox.com/communities/500121383/Prevail-Games#!/about" class="social-link" target="_blank">Roblox</a>
+                    <a href="https://discord.gg/nnMT5DsmYS" class="social-link" target="_blank">Discord</a>
+                    <a href="https://twitter.com/PrevailRBLX" class="social-link" target="_blank">Twitter</a>
+                    <a href="https://www.tiktok.com/@prevail.games" class="social-link" target="_blank">TikTok</a>
+                    <a href="mailto:hello@prevail.games" class="social-link">Email</a>
+                </div>
+            </div>
         </div>
-        <p>© 2025 Prevail Games. Built for awesome adventures.</p>
+        <div class="footer-bottom">
+            <p>© 2025 Prevail Games. Built with passion by Prevalist.</p>
+        </div>
     </footer>
 </body>
 </html>
